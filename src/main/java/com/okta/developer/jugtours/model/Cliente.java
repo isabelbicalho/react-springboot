@@ -28,6 +28,6 @@ public class Cliente {
     @Enumerated
     private Stage       stage;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @ElementCollection
     private Set<String> telefones;
 }
