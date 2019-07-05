@@ -8,6 +8,8 @@ import lombok.NonNull;
 
 import javax.persistence.*;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -18,11 +20,17 @@ public class PessoaJuridica {
     @Id
     @GeneratedValue
     private Long        id;
-    @OneToOne
-    @JoinColumn(name = "clienteId")
-    private Cliente     cliente;
     @NonNull
     private String      companyName;
     @NonNull
     private Long        cnpj;
+    @NonNull
+    private String      postalCode;
+    @NonNull
+    private String      email;
+    @NonNull
+    private String      stage;
+
+    @ElementCollection
+    private Set<String> telefones;
 }

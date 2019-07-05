@@ -17,14 +17,10 @@ export default class AppNavbar extends Component {
 
   render() {
     return <Navbar color="dark" dark expand="md">
-      <NavbarBrand tag={Link} to="/">Clientes</NavbarBrand>
+      <NavbarBrand tag={Link} to="/">Demo</NavbarBrand>
       <NavbarToggler onClick={this.toggle}/>
       <Collapse isOpen={this.state.isOpen} navbar>
         <Nav className="ml-auto" navbar>
-          <NavItem>
-            <NavLink
-              href="https://twitter.com/oktadev">@oktadev</NavLink>
-          </NavItem>
           <NavItem>
             <NavLink href="https://github.com/isabelbicalho/react-springboot">GitHub</NavLink>
           </NavItem>

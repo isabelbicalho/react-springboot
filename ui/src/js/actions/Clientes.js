@@ -2,8 +2,12 @@ import fetch from 'isomorphic-fetch'
 
 export const CREATING_CLIENTE               = 'CREATING_CLIENTE'
 export const CREATED_CLIENTE                = 'CREATED_CLIENTE'
+export const EDITED_CLIENTE                 = 'EDITED_CLIENTE'
+export const EDITING_CLIENTE                = 'EDITING_CLIENTE'
 export const FETCHING_CLIENTES              = 'FETCHING_CLIENTES'
+export const FETCHING_CLIENTE               = 'FETCHING_CLIENTE'
 export const FETCHED_CLIENTES               = 'FETCHED_CLIENTES'
+export const FETCHED_CLIENTE                = 'FETCHED_CLIENTE'
 export const DELETING_CLIENTE               = 'DELETING_CLIENTE'
 export const DELETED_CLIENTE                = 'DELETED_CLIENTE'
 export const DISPLAY_CREATE_CLIENTE_MODAL   = 'DISPLAY_CREATE_CLIENTE_MODAL'
@@ -11,6 +15,7 @@ export const HIDE_CREATE_CLIENTE_MODAL      = 'HIDE_CREATE_CLIENTE_MODAL'
 export const DISPLAY_EDIT_CLIENTE_MODAL     = 'DISPLAY_EDIT_CLIENTE_MODAL'
 export const HIDE_EDIT_CLIENTE_MODAL        = 'HIDE_EDIT_CLIENTE_MODAL'
 export const ERROR_FETCHING_CLIENTES        = 'ERROR_FETCHING_CLIENTES'
+export const ERROR_FETCHING_CLIENTE         = 'ERROR_FETCHING_CLIENTE'
 export const ERROR_CREATING_CLIENTE         = 'ERROR_CREATING_CLIENTE'
 export const ERROR_EDITING_CLIENTE          = 'ERROR_EDITING_CLIENTE'
 export const ERROR_DELETING_CLIENTE         = 'ERROR_DELETING_CLIENTE'
@@ -63,6 +68,31 @@ export function createdCliente(cliente) {
   return {
     type:       CREATED_CLIENTE,
     cliente:    cliente,
+    receivedAt: Date.now()
+  }
+}
+
+
+export function editedCliente(cliente) {
+  return {
+    type:       EDITED_CLIENTE,
+    cliente:    cliente,
+    receivedAt: Date.now()
+  }
+}
+
+
+export function fetchingCliente() {
+  return {
+    type: FETCHING_CLIENTE
+  }
+}
+
+
+export function fetchedCliente(json) {
+  return {
+    type:       FETCHED_CLIENTE,
+    cliente:    json.cliente,
     receivedAt: Date.now()
   }
 }
@@ -126,88 +156,98 @@ export function fetchClientes() {
       }
       return dispatch(fetchedClientes(await response.json()))
     } catch (error) {
-      return { type: ERROR_FETCHING_CLIENTES, receivedAt: Date.now(), message: error }
+      return dispatch({ type: ERROR_FETCHING_CLIENTES, receivedAt: Date.now(), message: error })
     }
   }
 }
 
 
-export function createCliente(address, number, complement, district, city, state, zipCode, totalArea, cityId, description) {
-  return function (dispatch, getState) {
-    dispatch(creatingCliente())
-    return fetch('/api/clientes', {
-      method:  'POST',
-      body:  JSON.stringify(
-        { cliente:
-          {
-            address,
-            number,
-            complement,
-            district,
-            city,
-            state,
-            zip_code: zipCode,
-            total_area: totalArea,
-            description,
-            city_id: cityId
-          }
-        }),
-      headers: {
-        'content-type':  'application/json'
-      }
-    })
-    .then(function (response) {
+export function fetchCliente(id, pessoaFisica) {
+  return async function (dispatch, getState) {
+    try {
+      dispatch(fetchingCliente())
+      let url = ''
+      if (pessoaFisica)
+        url = '/api/clientes/pessoafisica/'
+      else
+        url = '/api/clientes/pessoajuridica/'
+      let response = await fetch(url + id, { headers: { 'content-type':  'application/json' } })
       if (!response.ok) {
-        //dispatch(displayFlashMessage('Could not create cliente', 'error'))
-        let error = 'unable to create cliente: ' + response
-        throw error
+        return { type: ERROR_FETCHING_CLIENTE, message: 'unable to fetch cliente ' + id, receivedAt: Date.now() }
       }
-      return response.json().then(json => onClienteCreated(response, json, dispatch))
-    })
-    .catch(error => console.log("unable to create event: %s", error))
+      return dispatch(fetchedCliente(await response.json()))
+    } catch (error) {
+      return dispatch({ type: ERROR_FETCHING_CLIENTE, receivedAt: Date.now(), message: error })
+    }
   }
 }
 
 
-export function editCliente(address, number, complement, district, city, state, zipCode, totalArea, cityId, description) {
-  return function (dispatch, getState) {
-    dispatch(creatingCliente())
-    return fetch('/api/clientes', {
-      method:  'POST',
-      body:  JSON.stringify(
-        { cliente:
-          {
-            address,
-            number,
-            complement,
-            district,
-            city,
-            state,
-            zip_code: zipCode,
-            total_area: totalArea,
-            description,
-            city_id: cityId
-          }
-        }),
-      headers: {
-        'content-type':  'application/json'
-      }
-    })
-    .then(function (response) {
+export function createCliente(cliente, pessoaFisica, history) {
+  return async function (dispatch, getState) {
+    try {
+      dispatch(creatingCliente())
+      let url = ''
+      if (pessoaFisica)
+        url = '/api/clientes/pessoafisica'
+      else
+        url = '/api/clientes/pessoajuridica'
+      let response = fetch(url, {
+        method:  'POST',
+        body:  JSON.stringify(cliente),
+        headers: {
+          'content-type':  'application/json'
+        }
+      })
       if (!response.ok) {
-        //dispatch(displayFlashMessage('Could not create cliente', 'error'))
-        let error = 'unable to create cliente: ' + response
+        let error = 'unable to edit cliente'
         throw error
       }
-      return response.json().then(json => onClienteCreated(response, json, dispatch))
-    })
-    .catch(error => console.log("unable to create event: %s", error))
+      return onClienteCreated(await response.json(), history, dispatch)
+    } catch (error) {
+      console.log('unable to edit cliente: %s', error)
+      return dispatch({ type: ERROR_EDITING_CLIENTE, message: 'unable to create cliente', receivedAt: Date.now() })
+    }
   }
 }
 
 
-function onClienteCreated(response, json, dispatch) {
-  dispatch(createdCliente(json.cliente))
-  // dispatch(displayFlashMessage('Cliente created', 'success'))
-  // dispatch(hideCreateClienteModal())
+export function editCliente(cliente, history) {
+  return async function (dispatch, getState) {
+    try {
+      dispatch(creatingCliente())
+      let url = ''
+      if (cliente.cpf)
+        url = '/api/clientes/pessoafisica'
+      else if (cliente.cnpj)
+        url = '/api/clientes/pessoajuridica'
+      let response = fetch(url, {
+        method:  'PUT',
+        body:  JSON.stringify(cliente),
+        headers: {
+          'content-type':  'application/json'
+        }
+      })
+      if (!response.ok) {
+        let error = 'unable to edit cliente'
+        throw error
+      }
+      return onClienteEdited(await response.json(), history, dispatch)
+    } catch (error) {
+      console.log('unable to edit cliente: %s', error)
+      return dispatch({ type: ERROR_EDITING_CLIENTE, message: 'unable to edit cliente ' + cliente.id, receivedAt: Date.now() })
+    }
+  }
+}
+
+
+function onClienteCreated(cliente, history, dispatch) {
+  dispatch(createdCliente(cliente))
+  history.push('/clientes')
+}
+
+
+function onClienteEdited(cliente, history, dispatch) {
+  dispatch(editedCliente(cliente))
+  history.push('/clientes')
 }

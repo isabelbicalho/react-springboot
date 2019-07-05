@@ -22,14 +22,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onCreate: () => {
-      dispatch(createCliente())
+    onCreate: (cliente, pessoaFisica, history) => {
+      dispatch(createCliente(cliente, pessoaFisica, history))
     },
-    onEdit: () => {
-      dispatch(editCliente())
+    onEdit: (cliente, pessoaFisica, history) => {
+      dispatch(editCliente(cliente, pessoaFisica, history))
     },
-    onDelete: () => {
-      dispatch(deleteCliente())
+    onDelete: (cliente, pessoaFisica) => {
+      dispatch(deleteCliente(cliente, pessoaFisica))
     },
     onFetch: () => {
       dispatch(fetchClientes())

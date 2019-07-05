@@ -7,7 +7,6 @@ class ClientesList extends Component {
   constructor(props) {
     super(props);
     this.state = {clientes: props.clientes};
-    this.remove = this.remove.bind(this);
   }
 
   render() {
@@ -37,16 +36,17 @@ class ClientesList extends Component {
     return (
       <div>
         <div className="float-right">
-          <Button color="success" tag={Link} to="/clientes/new">Add Cliente</Button>
+          <Button color="success" tag={Link} to="/clientes/new">Adicionar Cliente</Button>
         </div>
         <h3>Clientes</h3>
         <Table className="mt-4">
           <thead>
           <tr>
-            <th width="20%">Name</th>
-            <th width="20%">Location</th>
-            <th>Events</th>
-            <th width="10%">Actions</th>
+            <th width="20%">Nome/Empresa</th>
+            <th width="20%">CPF/CNPJ</th>
+            <th width="20%">Tipo</th>
+            <th>Telefones</th>
+            <th width="10%">Ações</th>
           </tr>
           </thead>
           <tbody>

@@ -35,3 +35,25 @@
 .container, .container-fluid {
   margin-top: 20px;
 }  
+
+.bootstrap-switch {
+  margin: 0px 5px 5px 5px;
+}
+
+.bootstrap-switch-primary {
+  background-color: #4bb5ff;
+}
+.react-tagsinput-tag .info {
+  cursor: pointer;
+  margin: 5px 3px 5px 0;
+  position: relative;
+  padding: 3px 8px;
+  border-radius: 12px;
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: 0.75em;
+  text-transform: uppercase;
+  display: inline-block;
+  line-height: 1.5em;
+  padding-left: 0.8em; }
+
