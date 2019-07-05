@@ -10,6 +10,7 @@ import {
 } from 'js/actions/Clientes'
 
 const mapStateToProps = (state) => {
+  debugger
   return {
     pessoasFisicas:   state.clientes.pessoasFisicas,
     pessoasJuridicas: state.clientes.pessoasJuridicas,

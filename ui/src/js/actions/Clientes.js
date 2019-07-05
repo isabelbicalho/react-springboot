@@ -152,6 +152,7 @@ export function fetchingPessoasJuridicas() {
 
 
 export function fetchedPessoasFisicas(json) {
+  debugger
   return {
     type:       FETCHED_PESSOAS_FISICAS,
     clientes:   json.clientes,
@@ -238,14 +239,18 @@ export function deletePessoaJuridica(id) {
 export function fetchPessoasFisicas() {
   return async function (dispatch, getState) {
     try {
-      let url = '/api/clientes/pessoafisica/'
+      let url = '/api/api/clientes/pessoafisica'
       dispatch(fetchingPessoasFisicas())
+      debugger
       let response = await fetch(url, { headers: { 'content-type':  'application/json' } })
+      debugger
       if (!response.ok) {
-        return { type: ERROR_FETCHING_PESSOAS_FISICAS, message: 'unable to fetch clientes', receivedAt: Date.now() }
+        debugger
+        return dispatch({ type: ERROR_FETCHING_PESSOAS_FISICAS, message: 'unable to fetch clientes', receivedAt: Date.now() })
       }
       return dispatch(fetchedPessoasFisicas(await response.json()))
     } catch (error) {
+      debugger
       return dispatch({ type: ERROR_FETCHING_PESSOAS_FISICAS, receivedAt: Date.now(), message: error })
     }
   }
@@ -255,11 +260,11 @@ export function fetchPessoasFisicas() {
 export function fetchPessoasJuridicas() {
   return async function (dispatch, getState) {
     try {
-      let url = '/api/clientes/pessoajuridica/'
+      let url = '/api/api/clientes/pessoajuridica'
       dispatch(fetchingPessoasJuridicas())
       let response = await fetch(url, { headers: { 'content-type':  'application/json' } })
       if (!response.ok) {
-        return { type: ERROR_FETCHING_PESSOAS_JURIDICAS, message: 'unable to fetch clientes', receivedAt: Date.now() }
+        return dispatch({ type: ERROR_FETCHING_PESSOAS_JURIDICAS, message: 'unable to fetch clientes', receivedAt: Date.now() })
       }
       return dispatch(fetchedPessoasJuridicas(await response.json()))
     } catch (error) {

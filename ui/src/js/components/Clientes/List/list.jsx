@@ -6,28 +6,40 @@ class ClientesList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {clientes: props.clientes};
+    debugger
+    this.props.onFetchPessoasFisicas();
+    this.props.onFetchPessoasJuridicas();
+    // this.state = {clientes: props.clientes};
   }
 
   render() {
-    const { clientes } = this.state;
+    // const { clientes } = this.state;
 
-    const clienteList = clientes.map(cliente => {
-      const address = `${cliente.address || ''} ${cliente.city || ''} ${cliente.stateOrProvince || ''}`;
+    const clienteList1 = this.props.pessoasFisicas.map(cliente => {
       return <tr key={cliente.id}>
         <td style={{whiteSpace: 'nowrap'}}>{cliente.name}</td>
-        <td>{address}</td>
-        <td>{cliente.events.map(event => {
-          return <div key={event.id}>{new Intl.DateTimeFormat('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: '2-digit'
-          }).format(new Date(event.date))}: {event.title}</div>
-        })}</td>
+        <td>{cliente.cpf}</td>
+        <td>Pessoa Física</td>
+        <td>{cliente.phones}</td>
         <td>
           <ButtonGroup>
-            <Button size="sm" color="primary" tag={Link} to={"/clientes/" + cliente.id}>Edit</Button>
-            <Button size="sm" color="danger" onClick={() => this.onDelete(cliente.id)}>Delete</Button>
+            <Button size="sm" color="primary" tag={Link} to={"/clientes/pessoafisica/" + cliente.id}>Edit</Button>
+            <Button size="sm" color="danger" onClick={() => this.onDeletePessoaFisica(cliente.id)}>Delete</Button>
+          </ButtonGroup>
+        </td>
+      </tr>
+    });
+
+    const clienteList2 = this.props.pessoasJuridicas.map(cliente => {
+      return <tr key={cliente.id}>
+        <td style={{whiteSpace: 'nowrap'}}>{cliente.companyName}</td>
+        <td>{cliente.cnpj}</td>
+        <td>Pessoa Jurídica</td>
+        <td>{cliente.phones}</td>
+        <td>
+          <ButtonGroup>
+            <Button size="sm" color="primary" tag={Link} to={"/clientes/pessoajuridica/" + cliente.id}>Edit</Button>
+            <Button size="sm" color="danger" onClick={() => this.onDeletePessoaJuridica(cliente.id)}>Delete</Button>
           </ButtonGroup>
         </td>
       </tr>
@@ -36,10 +48,10 @@ class ClientesList extends Component {
     return (
       <div>
         <div className="float-right">
-          <Button color="success" tag={Link} to="/clientes/pessoafisica/new">Adicionar Pessoa Física</Button>
+          <Button color="danger" tag={Link} to="/clientes/pessoajuridica/new">Adicionar Pessoa Jurídica</Button>
         </div>
         <div className="float-right">
-          <Button color="danger" tag={Link} to="/clientes/pessoajuridica/new">Adicionar Pessoa Jurídica</Button>
+          <Button color="success" tag={Link} to="/clientes/pessoafisica/new">Adicionar Pessoa Física</Button>
         </div>
         <h3>Clientes</h3>
         <Table className="mt-4">
@@ -53,7 +65,8 @@ class ClientesList extends Component {
           </tr>
           </thead>
           <tbody>
-          {clienteList}
+          {clienteList1}
+          {clienteList2}
           </tbody>
         </Table>
       </div>

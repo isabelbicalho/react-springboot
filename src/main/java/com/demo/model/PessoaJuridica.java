@@ -31,6 +31,6 @@ public class PessoaJuridica {
     @NonNull
     private String      stage;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> phones;
 }

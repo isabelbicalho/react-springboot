@@ -36,7 +36,7 @@ class PessoaJuridicaController {
     }
 
     @ApiOperation(value = "Busca detalhes de pessoa juridica")
-    @GetMapping("/cliente/pessoajuridica/{id}")
+    @GetMapping("/clientes/pessoajuridica/{id}")
     ResponseEntity<?> getPessoaJuridica(@PathVariable Long id) {
         Optional<PessoaJuridica> pessoaJuridica = pessoaJuridicaRepository.findById(id);
         return pessoaJuridica.map(response -> ResponseEntity.ok().body(response))
@@ -53,7 +53,7 @@ class PessoaJuridicaController {
     }
 
     @ApiOperation(value = "Altera dados de pessoa juridica")
-    @PutMapping("/cliente/pessoajuridica/{id}")
+    @PutMapping("/clientes/pessoajuridica/{id}")
     ResponseEntity<PessoaJuridica> updatePessoaJuridica(@Valid @RequestBody PessoaJuridica pessoaJuridica) {
         log.info("Request to update pessoaJuridica: {}", pessoaJuridica);
         PessoaJuridica result = pessoaJuridicaRepository.save(pessoaJuridica);
@@ -61,7 +61,7 @@ class PessoaJuridicaController {
     }
 
     @ApiOperation(value = "Remove pessoa juridica dado seu id")
-    @DeleteMapping("/cliente/pessoajuridica/{id}")
+    @DeleteMapping("/clientes/pessoajuridica/{id}")
     public ResponseEntity<?> deletePessoaJuridica(@PathVariable Long id) {
         log.info("Request to delete pessoaJuridica: {}", id);
         pessoaJuridicaRepository.deleteById(id);

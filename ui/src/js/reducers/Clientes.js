@@ -39,7 +39,7 @@ const initialState = {
   displayEditModal: false,
   hasError: false,
   message: null,
-  pessaosFisicas: [],
+  pessoasFisicas: [],
   pessoasJuridicas: [],
   item: null
 }
@@ -53,6 +53,7 @@ export const clientes = (state = initialState, action) => {
     case DELETED_PESSOA_FISICA:
       return Object.assign({}, state, { hasError: false, message: action.message, pessoasFisicas: state.pessoasFisicas.filter(item => item.id !== action.clienteId), lastUpdated: action.receivedAt })
     case FETCHED_PESSOAS_FISICAS:
+      debugger
       return Object.assign({}, state, { hasError: false, message: action.message, pessoasFisicas: action.clientes, lastUpdated: action.receivedAt});
     case EDITED_PESSOA_FISICA:
       return Object.assign({}, state, { hasError: false, message: action.message, pessoasFisicas: state.pessoasFisicas.map((item, index) => {if (item.id == action.cliente.id) { return action.cliente } else { return item }}), lastUpdated: action.receivedAt })
@@ -85,6 +86,7 @@ export const clientes = (state = initialState, action) => {
     case FETCHING_PESSOAS_FISICAS:
     case FETCHING_PESSOA_JURIDICA:
     case FETCHING_PESSOAS_JURIDICAS:
+      debugger
       return Object.assign({}, state, { hasError: false, message: null, isFetching: true })
     case ERROR_FETCHING_PESSOAS_FISICAS:
     case ERROR_FETCHING_PESSOA_FISICA:
