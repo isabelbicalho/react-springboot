@@ -1,7 +1,7 @@
-import ClienteCreate   from './create'
+import CreateCliente   from './create'
 import { connect } from 'react-redux'
 import {
-  createCliente,
+  createPessoaJuridica,
 } from 'js/actions/Clientes'
 
 const mapStateToProps = (state) => {
@@ -16,9 +16,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onCreate: (cliente, history) => {
-      dispatch(createCliente(cliente, history))
+      dispatch(createPessoaJuridica(cliente, history))
     },
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClienteCreate);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateCliente);

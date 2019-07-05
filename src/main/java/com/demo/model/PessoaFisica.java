@@ -32,5 +32,5 @@ public class PessoaFisica {
     private String      stage;
 
     @ElementCollection
-    private Set<String> telefones;
+    private Set<String> phones;
 }

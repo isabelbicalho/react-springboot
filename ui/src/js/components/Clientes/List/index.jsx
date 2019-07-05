@@ -1,50 +1,43 @@
 import ClientesList   from './list'
 import { connect } from 'react-redux'
 import {
-  displayCreateClienteModal,
-  hideCreateClienteModal,
-  displayEditClienteModal,
-  hideEditClienteModal,
-  createCliente,
-  editCliente,
-  fetchClientes,
-  deleteCliente
+  editPessoaFisica,
+  editPessoaJuridica,
+  fetchPessoasFisicas,
+  fetchPessoasJuridicas,
+  deletePessoaFisica,
+  deletePessoaJuridica,
 } from 'js/actions/Clientes'
 
 const mapStateToProps = (state) => {
   return {
-    clientes:   state.clientes.items,
-    hasError:   state.clientes.hasError,
-    message:    state.clientes.message
+    pessoasFisicas:   state.clientes.pessoasFisicas,
+    pessoasJuridicas: state.clientes.pessoasJuridicas,
+    hasError:         state.clientes.hasError,
+    message:          state.clientes.message
   }
 }
 
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onCreate: (cliente, pessoaFisica, history) => {
-      dispatch(createCliente(cliente, pessoaFisica, history))
+    onEditPessoaFisica: (cliente, history) => { 
+      dispatch(editPessoaFisica(cliente, history))
     },
-    onEdit: (cliente, pessoaFisica, history) => {
-      dispatch(editCliente(cliente, pessoaFisica, history))
+    onEditPessoaJuridica: (cliente, history) => { 
+      dispatch(editPessoaJuridica(cliente, history))
     },
-    onDelete: (cliente, pessoaFisica) => {
-      dispatch(deleteCliente(cliente, pessoaFisica))
+    onDeletePessoaFisica: (clienteId) => {
+      dispatch(deletePessoaFisica(clienteId))
     },
-    onFetch: () => {
-      dispatch(fetchClientes())
+    onDeletePessoaJuridica: (clienteId) => {
+      dispatch(deletePessoaJuridica(clienteId))
     },
-    onDisplayCreateModal: () => {
-      dispatch(displayCreateClienteModal())
+    onFetchPessoasJuridicas: () => {
+      dispatch(fetchPessoasJuridicas())
     },
-    onHideCreateModal: () => {
-      dispatch(hideCreateClienteModal())
-    },
-    onDisplayEditClienteModal: () => {
-      dispatch(displayEditClienteModal())
-    },
-    onHideEditClienteModal: () => {
-      dispatch(hideEditClienteModal())
+    onFetchPessoasFisicas: () => {
+      dispatch(fetchPessoasFisicas())
     },
   }
 }

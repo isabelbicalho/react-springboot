@@ -4,7 +4,7 @@ import { Row, Button, Container, Form, FormGroup, Input, Label } from 'reactstra
 import Select from 'react-select';
 import TagsInput from 'react-tagsinput';
 
-class ClienteEdit extends Component {
+class CreateCliente extends Component {
 
   constructor(props) {
     super(props)
@@ -16,7 +16,6 @@ class ClienteEdit extends Component {
         telefones: [],
         stage: '',
         postalCode: '',
-        pessoaJuridica: false
       }
     };
     this.handleChange = this.handleChange.bind(this);
@@ -24,7 +23,6 @@ class ClienteEdit extends Component {
   }
 
   handleChange(event) {
-    debugger
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -36,24 +34,24 @@ class ClienteEdit extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const {item} = this.state;
-    this.props.createCliente(item, this.props.history)
+    this.props.onCreate(item, this.props.history)
   }
 
   render() {
     const {item} = this.state;
-    const title = <h2>Adicionar cliente</h2>;
+    const title = <h2>Adicionar Pessoa Jurídica</h2>;
 
     return <div>
       <Container>
         {title}
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <Label for="name">Pessoa Jurídica</Label>
-            <Input type="checkbox" name="pessoaJuridica" id="pessoaJuridica" value={item.pessoaJuridica || false}
-                   onChange={this.handleChange} autoComplete="pessoaJuridica"/>
+            <Label for="name">Nome da empresa</Label>
+            <Input type="text" name="name" id="name" value={item.name || ''}
+                   onChange={this.handleChange} autoComplete="name"/>
           </FormGroup>
           <FormGroup>
-            <Label for="cpfCnpj">{item.pessoaJuridica ? 'CNPJ' : 'CPF'}</Label>
+            <Label for="cpfCnpj">CNPJ</Label>
             <Input type="text" name="cpfCnpj" id="cpfCnpj" value={item.cpfCnpj || ''}
                    onChange={this.handleChange} autoComplete="cpfCnpj"/>
           </FormGroup>
@@ -76,7 +74,7 @@ class ClienteEdit extends Component {
                 className="primary"
                 placeholder="Stage"
                 value={item.stage}
-                options={[{value: 'Active', label: 'Active'}, {value: 'Inactive', label: 'Inactive'}]}
+                options={[{value: 'active', label: 'active'}, {value: 'inactive', label: 'inactive'}]}
                 onChange={(value) => this.setState({ item: {...item, stage: value}})}
               />
             </FormGroup>
@@ -93,7 +91,7 @@ class ClienteEdit extends Component {
           </div>
           <FormGroup>
             <Button color="primary" type="submit">Save</Button>{' '}
-            <Button color="secondary" tag={Link} to="/groups">Cancel</Button>
+            <Button color="secondary" tag={Link} to="/clientes">Cancel</Button>
           </FormGroup>
         </Form>
       </Container>
@@ -101,4 +99,4 @@ class ClienteEdit extends Component {
   }
 }
 
-export default withRouter(ClienteEdit);
+export default withRouter(CreateCliente);

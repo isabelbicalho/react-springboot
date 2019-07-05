@@ -36,7 +36,10 @@ class ClientesList extends Component {
     return (
       <div>
         <div className="float-right">
-          <Button color="success" tag={Link} to="/clientes/new">Adicionar Cliente</Button>
+          <Button color="success" tag={Link} to="/clientes/pessoafisica/new">Adicionar Pessoa Física</Button>
+        </div>
+        <div className="float-right">
+          <Button color="danger" tag={Link} to="/clientes/pessoajuridica/new">Adicionar Pessoa Jurídica</Button>
         </div>
         <h3>Clientes</h3>
         <Table className="mt-4">

@@ -1,9 +1,8 @@
 import ClienteEdit   from './edit'
 import { connect } from 'react-redux'
 import {
-  createCliente,
-  editCliente,
-  fetchCliente,
+  editPessoaJuridica,
+  fetchPessoaJuridica,
 } from 'js/actions/Clientes'
 
 const mapStateToProps = (state) => {
@@ -17,14 +16,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onCreate: (cliente, pessoaFisica, history) => {
-      dispatch(createCliente(cliente, pessoaFisica, history))
-    },
     onEdit: (cliente, pessoaFisica, history) => {
-      dispatch(editCliente(cliente, pessoaFisica, history))
+      dispatch(editPessoaJuridica(cliente, false, history))
     },
     onFetch: (id, pessoaFisica) => {
-      dispatch(fetchCliente(id, pessoaFisica))
+      dispatch(fetchPessoaJuridica(id, false))
     },
   }
 }
