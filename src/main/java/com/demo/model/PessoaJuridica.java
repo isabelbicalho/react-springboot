@@ -1,4 +1,4 @@
-package com.okta.developer.jugtours.model;
+package com.demo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,16 +14,17 @@ import java.util.Set;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "pessoa_fisica")
-public class PessoaFisica {
+@Table(name = "pessoa_juridica")
+public class PessoaJuridica {
 
     @Id
     @GeneratedValue
     private Long        id;
     @NonNull
-    private String      name;
+    private String      companyName;
     @NonNull
-    private Long        cpf;
+    private Long        cnpj;
+    @NonNull
     private String      postalCode;
     @NonNull
     private String      email;

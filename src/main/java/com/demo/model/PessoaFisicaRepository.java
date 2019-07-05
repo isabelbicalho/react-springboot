@@ -1,4 +1,4 @@
-package com.okta.developer.jugtours.model;
+package com.demo.model;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

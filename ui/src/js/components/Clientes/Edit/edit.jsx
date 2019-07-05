@@ -5,16 +5,23 @@ import Switch from 'react-bootstrap-switch';
 
 class ClienteEdit extends Component {
 
-  emptyItem = {
-    name: '',
-    cpf_cnpj: '',
-    email: '',
-    telefones: '',
-    stage: '',
-    postalCode: ''
-  };
-
-
+  constructor(props) {
+    super(props)
+    const cliente = this.props.fetchCliente(this.props.match.params.id)
+    this.state = {
+      item: {
+        name: '',
+        cpfCnpj: '',
+        email: '',
+        telefones: [],
+        stage: '',
+        postalCode: '',
+        pessoaJuridica: false
+      }
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
   constructor(props) {
     super(props);
     if (this.props.match.params.id !== 'new') {

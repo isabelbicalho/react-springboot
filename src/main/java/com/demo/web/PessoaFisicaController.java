@@ -1,7 +1,10 @@
-package com.okta.developer.jugtours.web;
+package com.demo.web;
 
-import com.okta.developer.jugtours.model.PessoaFisica;
-import com.okta.developer.jugtours.model.PessoaFisicaRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+import com.demo.model.PessoaFisica;
+import com.demo.model.PessoaFisicaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RestController
+@Api(value = "Cliente Pessoa Fisica", description = "Cliente Pessoa Fisica")
 @RequestMapping("/api")
 class PessoaFisicaController {
 
@@ -25,11 +29,13 @@ class PessoaFisicaController {
         this.pessoaFisicaRepository = pessoaFisicaRepository;
     }
 
+    @ApiOperation(value = "Lista clientes de pessoa fisica")
     @GetMapping("/clientes/pessoafisica")
     Collection<PessoaFisica> pessoaFisicas() {
         return pessoaFisicaRepository.findAll();
     }
 
+    @ApiOperation(value = "Busca detalhes de pessoa fisica")
     @GetMapping("/cliente/pessoafisica/{id}")
     ResponseEntity<?> getPessoaFisica(@PathVariable Long id) {
         Optional<PessoaFisica> pessoaFisica = pessoaFisicaRepository.findById(id);
@@ -37,6 +43,7 @@ class PessoaFisicaController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @ApiOperation(value = "Adiciona pessoa fisica")
     @PostMapping("/clientes/pessoafisica")
     ResponseEntity<PessoaFisica> createPessoaFisica(@Valid @RequestBody PessoaFisica pessoaFisica) throws URISyntaxException {
         log.info("Request to create pessoaFisica: {}", pessoaFisica);
@@ -45,6 +52,7 @@ class PessoaFisicaController {
                 .body(result);
     }
 
+    @ApiOperation(value = "Altera dados de pessoa fisica")
     @PutMapping("/cliente/pessoafisica/{id}")
     ResponseEntity<PessoaFisica> updatePessoaFisica(@Valid @RequestBody PessoaFisica pessoaFisica) {
         log.info("Request to update pessoaFisica: {}", pessoaFisica);
@@ -52,6 +60,7 @@ class PessoaFisicaController {
         return ResponseEntity.ok().body(result);
     }
 
+    @ApiOperation(value = "Remove pessoa fisica dado seu id")
     @DeleteMapping("/cliente/pessoaFisica/{id}")
     public ResponseEntity<?> deletePessoaFisica(@PathVariable Long id) {
         log.info("Request to delete pessoaFisica: {}", id);

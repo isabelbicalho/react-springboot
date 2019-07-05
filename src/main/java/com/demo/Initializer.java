@@ -1,8 +1,8 @@
-// package com.okta.developer.jugtours;
+// package com.demo;
 // 
-// // import com.okta.developer.jugtours.model.Event;
-// // import com.okta.developer.jugtours.model.Group;
-// import com.okta.developer.jugtours.model.ClienteRepository;
+// // import com.demo.model.Event;
+// // import com.demo.model.Group;
+// import com.demo.model.ClienteRepository;
 // import org.springframework.boot.CommandLineRunner;
 // import org.springframework.stereotype.Component;
 // 

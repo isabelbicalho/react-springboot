@@ -1,7 +1,10 @@
-package com.okta.developer.jugtours.web;
+package com.demo.web;
 
-import com.okta.developer.jugtours.model.PessoaJuridica;
-import com.okta.developer.jugtours.model.PessoaJuridicaRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+import com.demo.model.PessoaJuridica;
+import com.demo.model.PessoaJuridicaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RestController
+@Api(value = "Cliente Pessoa Juridica", description = "Cliente Pessoa Juridica")
 @RequestMapping("/api")
 class PessoaJuridicaController {
 
@@ -25,11 +29,13 @@ class PessoaJuridicaController {
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
     }
 
+    @ApiOperation(value = "Lista clientes de pessoa juridica")
     @GetMapping("/clientes/pessoajuridica")
     Collection<PessoaJuridica> pessoaJuridicas() {
         return pessoaJuridicaRepository.findAll();
     }
 
+    @ApiOperation(value = "Busca detalhes de pessoa juridica")
     @GetMapping("/cliente/pessoajuridica/{id}")
     ResponseEntity<?> getPessoaJuridica(@PathVariable Long id) {
         Optional<PessoaJuridica> pessoaJuridica = pessoaJuridicaRepository.findById(id);
@@ -37,6 +43,7 @@ class PessoaJuridicaController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @ApiOperation(value = "Adiciona pessoa juridica")
     @PostMapping("/clientes/pessoajuridica")
     ResponseEntity<PessoaJuridica> createPessoaJuridica(@Valid @RequestBody PessoaJuridica pessoaJuridica) throws URISyntaxException {
         log.info("Request to create pessoaJuridica: {}", pessoaJuridica);
@@ -45,6 +52,7 @@ class PessoaJuridicaController {
                 .body(result);
     }
 
+    @ApiOperation(value = "Altera dados de pessoa juridica")
     @PutMapping("/cliente/pessoajuridica/{id}")
     ResponseEntity<PessoaJuridica> updatePessoaJuridica(@Valid @RequestBody PessoaJuridica pessoaJuridica) {
         log.info("Request to update pessoaJuridica: {}", pessoaJuridica);
@@ -52,6 +60,7 @@ class PessoaJuridicaController {
         return ResponseEntity.ok().body(result);
     }
 
+    @ApiOperation(value = "Remove pessoa juridica dado seu id")
     @DeleteMapping("/cliente/pessoajuridica/{id}")
     public ResponseEntity<?> deletePessoaJuridica(@PathVariable Long id) {
         log.info("Request to delete pessoaJuridica: {}", id);
