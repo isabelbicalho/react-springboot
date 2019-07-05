@@ -14,6 +14,14 @@ export const ERROR_FETCHING_CLIENTES        = 'ERROR_FETCHING_CLIENTES'
 export const ERROR_CREATING_CLIENTE         = 'ERROR_CREATING_CLIENTE'
 export const ERROR_EDITING_CLIENTE          = 'ERROR_EDITING_CLIENTE'
 export const ERROR_DELETING_CLIENTE         = 'ERROR_DELETING_CLIENTE'
+export const HIDE_CLIENTE_MESSAGE           = 'HIDE_CLIENTE_MESSAGE'
+
+
+export function hideMessage() {
+  return {
+    type: HIDE_CLIENTE_MESSAGE
+  }
+}
 
 
 export function displayCreateClienteModal() {

@@ -1,75 +1,61 @@
 import {
-  CREATING_GIVER_REALTY,
-  CREATED_GIVER_REALTY,
-  FETCHING_GIVER_REALTIES,
-  FETCHED_GIVER_REALTIES,
-  DELETING_GIVER_REALTY,
-  DELETED_GIVER_REALTY,
-  DISPLAY_CREATE_GIVER_REALTY_MODAL,
-  HIDE_CREATE_GIVER_REALTY_MODAL,
-  CREATING_RECEPTOR_REALTY,
-  CREATED_RECEPTOR_REALTY,
-  FETCHING_RECEPTOR_REALTIES,
-  FETCHED_RECEPTOR_REALTIES,
-  DELETING_RECEPTOR_REALTY,
-  DELETED_RECEPTOR_REALTY,
-  DISPLAY_CREATE_RECEPTOR_REALTY_MODAL,
-  HIDE_CREATE_RECEPTOR_REALTY_MODAL
-} from '../actions/Realties'
+  CREATING_CLIENTE,
+  CREATED_CLIENTE,
+  FETCHING_CLIENTES,
+  FETCHED_CLIENTES,
+  DELETING_CLIENTE,
+  DELETED_CLIENTE,
+  DISPLAY_CREATE_CLIENTE_MODAL,
+  HIDE_CREATE_CLIENTE_MODAL,
+  DISPLAY_EDIT_CLIENTE_MODAL,
+  HIDE_EDIT_CLIENTE_MODAL,
+  ERROR_FETCHING_CLIENTES,
+  ERROR_CREATING_CLIENTE,
+  ERROR_EDITING_CLIENTE,
+  ERROR_DELETING_CLIENTE,
+  HIDE_CLIENTE_MESSAGE,
+} from 'js/actions/Clientes'
 
 
 const initialState = {
-  giver: {
-    isFetching: false,
-    registered: false,
-    displayCreateModal: false,
-    errorMessage: null,
-    items: []
-  },
-  receptor: {
-    isFetching: false,
-    registered: false,
-    displayCreateModal: false,
-    errorMessage: null,
-    items: []
-  }
+  isFetching: false,
+  displayCreateModal: false,
+  displayEditModal: false,
+  hasError: false,
+  message: null,
+  items: []
 }
 
 
-export const realties = (state = initialState, action) => {
+export const clientes = (state = initialState, action) => {
   switch(action.type) {
-    case CREATING_GIVER_REALTY:
-      return Object.assign({}, state, { giver: Object.assign({}, state.giver, { registered: false }) })
-    case CREATED_GIVER_REALTY:
-      return Object.assign({}, state, { giver: Object.assign({}, state.giver, { registered: true, items: state.giver.items.concat([action.realty]), lastUpdated: action.receivedAt }, action.realty) })
-    case FETCHING_GIVER_REALTIES:
-      return Object.assign({}, state, { giver: Object.assign({}, state.giver, { isFetching: true }) })
-    case FETCHED_GIVER_REALTIES:
-      return Object.assign({}, state, { giver: Object.assign({}, state.giver, { isFetching: false, deleted: false, items: action.realties }) })
-    case DELETING_GIVER_REALTY:
-      return Object.assign({}, state, { giver: Object.assign({}, state.giver, { deleted: false }) })
-    case DELETED_GIVER_REALTY:
-      return Object.assign({}, state, { giver: Object.assign({}, state.giver, { deleted: true, items: state.giver.items.filter(item => item.id !== action.realtyId), lastUpdated: action.receivedAt }) })
-    case DISPLAY_CREATE_GIVER_REALTY_MODAL:
-      return Object.assign({}, state, { giver: Object.assign({}, state.giver, { displayCreateModal: true }) })
-    case HIDE_CREATE_GIVER_REALTY_MODAL:
-      return Object.assign({}, state, { giver: Object.assign({}, state.giver, { displayCreateModal: false }) })
-    case CREATING_RECEPTOR_REALTY:
-      return Object.assign({}, state, { receptor: Object.assign({}, state.receptor, { registered: false }) })
-    case CREATED_RECEPTOR_REALTY:
-      return Object.assign({}, state, { receptor: Object.assign({}, state.receptor, { registered: true, items: state.receptor.items.concat([action.realty]), lastUpdated: action.receivedAt }, action.realty) })
-    case FETCHING_RECEPTOR_REALTIES:
-      return Object.assign({}, state, { receptor: Object.assign({}, state.receptor, { isFetching: true }) })
-    case FETCHED_RECEPTOR_REALTIES:
-      return Object.assign({}, state, { receptor: Object.assign({}, state.receptor, { isFetching: false, deleted: false, items: action.realties }) })
-    case DELETING_RECEPTOR_REALTY:
-      return Object.assign({}, state, { receptor: Object.assign({}, state.receptor, { deleted: false }) })
-    case DELETED_RECEPTOR_REALTY:
-      return Object.assign({}, state, { receptor: Object.assign({}, state.receptor, { deleted: true, items: state.receptor.items.filter(item => item.id !== action.realtyId), lastUpdated: action.receivedAt }) })
-    case DISPLAY_CREATE_RECEPTOR_REALTY_MODAL:
-      return Object.assign({}, state, { receptor: Object.assign({}, state.receptor, { displayCreateModal: true }) })
-    case HIDE_CREATE_RECEPTOR_REALTY_MODAL:
-      return Object.assign({}, state, { receptor: Object.assign({}, state.receptor, { displayCreateModal: false }) })
+    case CREATING_CLIENTE:
+      return Object.assign({}, state, { hasError: false, message: null, registered: false })
+    case CREATED_CLIENTE:
+      return Object.assign({}, state, { hasError: false, message: action.message, items: state.items.concat([action.cliente]), lastUpdated: action.receivedAt })
+    case FETCHING_CLIENTES:
+      return Object.assign({}, state, { hasError: false, message: null, isFetching: true })
+    case FETCHED_CLIENTES:
+      return Object.assign({}, state, { hasError: false, message: action.message, isFetching: false, items: action.clientes })
+    case DELETING_CLIENTE:
+      return Object.assign({}, state, { hasError: false, message: null })
+    case DELETED_CLIENTE:
+      return Object.assign({}, state, { hasError: false, message: action.message, items: state.items.filter(item => item.id !== action.clienteId), lastUpdated: action.receivedAt })
+    case DISPLAY_CREATE_CLIENTE_MODAL:
+      return Object.assign({}, state, { displayCreateModal: true })
+    case HIDE_CREATE_CLIENTE_MODAL:
+      return Object.assign({}, state, { displayCreateModal: false })
+    case DISPLAY_EDIT_CLIENTE_MODAL:
+      return Object.assign({}, state, { displayEditModal: true })
+    case HIDE_EDIT_CLIENTE_MODAL:
+      return Object.assign({}, state, { displayEditModal: false })
+    case HIDE_CLIENTE_MESSAGE:
+      return Object.assign({}, state, { hasError: false, message: null })
+    case ERROR_FETCHING_CLIENTES:
+    case ERROR_CREATING_CLIENTE:
+    case ERROR_EDITING_CLIENTE:
+    case ERROR_DELETING_CLIENTE:
+      return Object.assign({}, state, { message: action.message, hasError: true })
     default:
       return state
   }
