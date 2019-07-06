@@ -48,7 +48,7 @@ class ClienteEdit extends Component {
     event.preventDefault();
     if (this.validateRequired()) {
       const {item} = this.state;
-      this.props.onCreate(item, this.props.history)
+      this.props.onEdit(item, this.props.history)
     }
   }
 
