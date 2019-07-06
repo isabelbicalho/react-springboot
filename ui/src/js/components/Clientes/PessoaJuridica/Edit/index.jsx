@@ -16,8 +16,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onEdit: (cliente, pessoaFisica, history) => {
-      dispatch(editPessoaJuridica(cliente, false, history))
+    onEdit: (cliente, history) => {
+      dispatch(editPessoaJuridica(cliente, history))
     },
     onFetch: (id, pessoaFisica) => {
       dispatch(fetchPessoaJuridica(id, false))

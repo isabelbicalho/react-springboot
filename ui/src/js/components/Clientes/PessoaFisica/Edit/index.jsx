@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch) => {
     onEdit: (cliente, history) => {
       dispatch(editPessoaFisica(cliente, history))
     },
-    onFetch: (id, pessoaFisica) => {
+    onFetch: (id) => {
       dispatch(fetchPessoaFisica(id))
     },
   }

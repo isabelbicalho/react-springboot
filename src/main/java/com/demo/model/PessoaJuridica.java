@@ -11,8 +11,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Data
-@AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "pessoa_juridica")
 public class PessoaJuridica {
@@ -24,7 +23,6 @@ public class PessoaJuridica {
     private String      companyName;
     @NonNull
     private Long        cnpj;
-    @NonNull
     private String      postalCode;
     @NonNull
     private String      email;

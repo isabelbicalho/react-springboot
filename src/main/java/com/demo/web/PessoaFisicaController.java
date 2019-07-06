@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RestController
 @Api(value = "Cliente Pessoa Fisica", description = "Cliente Pessoa Fisica")
-@RequestMapping("/api")
+@RequestMapping("/api/clientes")
 class PessoaFisicaController {
 
     private final Logger log = LoggerFactory.getLogger(PessoaFisicaController.class);
@@ -30,13 +30,13 @@ class PessoaFisicaController {
     }
 
     @ApiOperation(value = "Lista clientes de pessoa fisica")
-    @GetMapping("/clientes/pessoafisica")
+    @GetMapping("/pessoafisica")
     Collection<PessoaFisica> pessoaFisicas() {
         return pessoaFisicaRepository.findAll();
     }
 
     @ApiOperation(value = "Busca detalhes de pessoa fisica")
-    @GetMapping("/clientes/pessoafisica/{id}")
+    @GetMapping("/pessoafisica/{id}")
     ResponseEntity<?> getPessoaFisica(@PathVariable Long id) {
         Optional<PessoaFisica> pessoaFisica = pessoaFisicaRepository.findById(id);
         return pessoaFisica.map(response -> ResponseEntity.ok().body(response))
@@ -44,7 +44,7 @@ class PessoaFisicaController {
     }
 
     @ApiOperation(value = "Adiciona pessoa fisica")
-    @PostMapping("/clientes/pessoafisica")
+    @PostMapping("/pessoafisica")
     ResponseEntity<PessoaFisica> createPessoaFisica(@Valid @RequestBody PessoaFisica pessoaFisica) throws URISyntaxException {
         log.info("Request to create pessoaFisica: {}", pessoaFisica);
         PessoaFisica result = pessoaFisicaRepository.save(pessoaFisica);
@@ -53,15 +53,15 @@ class PessoaFisicaController {
     }
 
     @ApiOperation(value = "Altera dados de pessoa fisica")
-    @PutMapping("/clientes/pessoafisica/{id}")
-    ResponseEntity<PessoaFisica> updatePessoaFisica(@Valid @RequestBody PessoaFisica pessoaFisica) {
+    @PutMapping("/pessoafisica/{id}")
+    ResponseEntity<PessoaFisica> updatePessoaFisica(@PathVariable Long id, @Valid @RequestBody PessoaFisica pessoaFisica) {
         log.info("Request to update pessoaFisica: {}", pessoaFisica);
         PessoaFisica result = pessoaFisicaRepository.save(pessoaFisica);
         return ResponseEntity.ok().body(result);
     }
 
     @ApiOperation(value = "Remove pessoa fisica dado seu id")
-    @DeleteMapping("/clientes/pessoaFisica/{id}")
+    @DeleteMapping("/pessoafisica/{id}")
     public ResponseEntity<?> deletePessoaFisica(@PathVariable Long id) {
         log.info("Request to delete pessoaFisica: {}", id);
         pessoaFisicaRepository.deleteById(id);

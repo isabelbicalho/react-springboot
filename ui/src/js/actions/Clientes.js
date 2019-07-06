@@ -7,8 +7,8 @@ export const EDITING_PESSOA_FISICA                  = 'EDITING_PESSOA_FISICA'
 export const EDITED_PESSOA_FISICA                   = 'EDITED_PESSOA_FISICA'
 export const FETCHING_PESSOAS_FISICAS               = 'FETCHING_PESSOAS_FISICAS'
 export const FETCHING_PESSOA_FISICA                 = 'FETCHING_PESSOA_FISICA'
-export const FETCHED_PESSOA_FISICA                  = 'FETCHING_PESSOA_FISICA'
-export const FETCHED_PESSOAS_FISICAS                = 'FETCHING_PESSOAS_FISICAS'
+export const FETCHED_PESSOA_FISICA                  = 'FETCHED_PESSOA_FISICA'
+export const FETCHED_PESSOAS_FISICAS                = 'FETCHED_PESSOAS_FISICAS'
 export const DELETING_PESSOA_FISICA                 = 'DELETING_PESSOA_FISICA'
 export const DELETED_PESSOA_FISICA                  = 'DELETED_PESSOA_FISICA'
 export const ERROR_FETCHING_PESSOAS_FISICAS         = 'ERROR_FETCHING_PESSOAS_FISICAS'
@@ -35,11 +35,57 @@ export const ERROR_DELETING_PESSOA_JURIDICA         = 'ERROR_DELETING_PESSOA_JUR
 export const HIDE_CLIENTE_MESSAGE                   = 'HIDE_CLIENTE_MESSAGE'
 
 
+export const FETCHING_ALL_CLIENTS                   = 'FETCHING_ALL_CLIENTS'
+export const ERROR_FETCHING_ALL_CLIENTS             = 'ERROR_FETCHING_ALL_CLIENTS'
+export const FETCHED_ALL_CLIENTS                    = 'FETCHED_ALL_CLIENTS'
+
+
 export function hideMessage() {
   return {
     type: HIDE_CLIENTE_MESSAGE
   }
 }
+
+
+export function fetchingAllClients() {
+  return {
+    type: FETCHING_ALL_CLIENTS
+  }
+}
+
+
+export function fetchAllClients() {
+  return async function (dispatch) {
+    try {
+      let urlFisica = '/api/clientes/pessoafisica'
+      let urlJuridica = '/api/clientes/pessoajuridica'
+      dispatch(fetchingAllClients())
+      let response = await fetch(urlFisica, { headers: { 'content-type':  'application/json' } })
+      if (!response.ok) {
+        return dispatch({ type: ERROR_FETCHING_PESSOAS_FISICAS, message: 'unable to fetch clientes', receivedAt: Date.now() })
+      }
+      let pessoasFisicas = await response.json()
+      response = await fetch(urlJuridica, { headers: { 'content-type':  'application/json' } })
+      if (!response.ok) {
+        return dispatch({ type: ERROR_FETCHING_PESSOAS_JURIDICAS, message: 'unable to fetch clientes', receivedAt: Date.now() })
+      }
+      let pessoasJuridicas = await response.json()
+      return dispatch(fetchedAllClients(pessoasFisicas, pessoasJuridicas))
+    } catch (error) {
+      return dispatch({ type: ERROR_FETCHING_ALL_CLIENTS, receivedAt: Date.now(), message: error })
+    }
+  }
+}
+
+
+export function fetchedAllClients(pessoasFisicas, pessoasJuridicas) {
+  return {
+    type: FETCHED_ALL_CLIENTS,
+    pessoasFisicas: pessoasFisicas,
+    pessoasJuridicas: pessoasJuridicas
+  }
+}
+
 
 export function creatingPessoaFisica() {
   return {
@@ -122,7 +168,7 @@ export function fetchingPessoaJuridica() {
 export function fetchedPessoaFisica(json) {
   return {
     type:       FETCHED_PESSOA_FISICA,
-    cliente:    json.cliente,
+    cliente:    json,
     receivedAt: Date.now()
   }
 }
@@ -131,7 +177,7 @@ export function fetchedPessoaFisica(json) {
 export function fetchedPessoaJuridica(json) {
   return {
     type:       FETCHED_PESSOA_JURIDICA,
-    cliente:    json.cliente,
+    cliente:    json,
     receivedAt: Date.now()
   }
 }
@@ -152,10 +198,9 @@ export function fetchingPessoasJuridicas() {
 
 
 export function fetchedPessoasFisicas(json) {
-  debugger
   return {
     type:       FETCHED_PESSOAS_FISICAS,
-    clientes:   json.clientes,
+    clientes:   json,
     receivedAt: Date.now()
   }
 }
@@ -164,7 +209,7 @@ export function fetchedPessoasFisicas(json) {
 export function fetchedPessoasJuridicas(json) {
   return {
     type:       FETCHED_PESSOAS_JURIDICAS,
-    clientes:   json.clientes,
+    clientes:   json,
     receivedAt: Date.now()
   }
 }
@@ -203,15 +248,15 @@ export function deletedPessoaJuridica(id) {
 
 
 export function deletePessoaFisica(id) {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     try {
       dispatch(deletingPessoaFisica())
       let  url = '/api/clientes/pessoafisica/'
-      let response = await fetch(url + id, { headers: { 'content-type':  'application/json' } })
+      let response = await fetch(url + id, { method: 'DELETE', headers: { 'Accept': 'application/json', 'content-type':  'application/json' } })
       if (!response.ok) {
         return { type: ERROR_DELETING_PESSOA_FISICA, message: 'unable to delete cliente ' + id, receivedAt: Date.now() }
       }
-      return dispatch(deletedPessoaFisica(await response.json()))
+      return dispatch(deletedPessoaFisica(id))
     } catch (error) {
       return { type: ERROR_DELETING_PESSOA_FISICA, receivedAt: Date.now(), message: error }
     }
@@ -220,15 +265,15 @@ export function deletePessoaFisica(id) {
 
 
 export function deletePessoaJuridica(id) {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     try {
       dispatch(deletingPessoaFisica())
       let url = '/api/clientes/pessoajuridica/'
-      let response = await fetch(url + id, { headers: { 'content-type':  'application/json' } })
+      let response = await fetch(url + id, { method: 'DELETE', headers: {'Accept': 'application/json', 'content-type':  'application/json' } })
       if (!response.ok) {
         return { type: ERROR_DELETING_PESSOA_JURIDICA, message: 'unable to delete cliente ' + id, receivedAt: Date.now() }
       }
-      return dispatch(deletedPessoaJuridica(await response.json()))
+      return dispatch(deletedPessoaJuridica(id))
     } catch (error) {
       return { type: ERROR_DELETING_PESSOA_JURIDICA, receivedAt: Date.now(), message: error }
     }
@@ -237,20 +282,16 @@ export function deletePessoaJuridica(id) {
 
 
 export function fetchPessoasFisicas() {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     try {
-      let url = '/api/api/clientes/pessoafisica'
+      let url = '/api/clientes/pessoafisica'
       dispatch(fetchingPessoasFisicas())
-      debugger
       let response = await fetch(url, { headers: { 'content-type':  'application/json' } })
-      debugger
       if (!response.ok) {
-        debugger
         return dispatch({ type: ERROR_FETCHING_PESSOAS_FISICAS, message: 'unable to fetch clientes', receivedAt: Date.now() })
       }
       return dispatch(fetchedPessoasFisicas(await response.json()))
     } catch (error) {
-      debugger
       return dispatch({ type: ERROR_FETCHING_PESSOAS_FISICAS, receivedAt: Date.now(), message: error })
     }
   }
@@ -258,9 +299,9 @@ export function fetchPessoasFisicas() {
 
 
 export function fetchPessoasJuridicas() {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     try {
-      let url = '/api/api/clientes/pessoajuridica'
+      let url = '/api/clientes/pessoajuridica'
       dispatch(fetchingPessoasJuridicas())
       let response = await fetch(url, { headers: { 'content-type':  'application/json' } })
       if (!response.ok) {
@@ -275,13 +316,13 @@ export function fetchPessoasJuridicas() {
 
 
 export function fetchPessoaFisica(id) {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     try {
       dispatch(fetchingPessoaFisica())
       let url = '/api/clientes/pessoafisica/'
       let response = await fetch(url + id, { headers: { 'content-type':  'application/json' } })
       if (!response.ok) {
-        return { type: ERROR_FETCHING_PESSOA_FISICA, message: 'unable to fetch cliente ' + id, receivedAt: Date.now() }
+        return dispatch({ type: ERROR_FETCHING_PESSOA_FISICA, message: 'unable to fetch cliente ' + id, receivedAt: Date.now() })
       }
       return dispatch(fetchedPessoaFisica(await response.json()))
     } catch (error) {
@@ -292,13 +333,13 @@ export function fetchPessoaFisica(id) {
 
 
 export function fetchPessoaJuridica(id) {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     try {
       dispatch(fetchingPessoaJuridica())
       let url = '/api/clientes/pessoajuridica/'
       let response = await fetch(url + id, { headers: { 'content-type':  'application/json' } })
       if (!response.ok) {
-        return { type: ERROR_FETCHING_PESSOA_JURIDICA, message: 'unable to fetch cliente ' + id, receivedAt: Date.now() }
+        return dispatch({ type: ERROR_FETCHING_PESSOA_JURIDICA, message: 'unable to fetch cliente ' + id, receivedAt: Date.now() })
       }
       return dispatch(fetchedPessoaJuridica(await response.json()))
     } catch (error) {
@@ -309,43 +350,44 @@ export function fetchPessoaJuridica(id) {
 
 
 export function createPessoaJuridica(cliente, history) {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     try {
       dispatch(creatingPessoaJuridica())
       let url = '/api/clientes/pessoajuridica' 
-      let response = fetch(url, {
+      let response = await fetch(url, {
         method:  'POST',
         body:  JSON.stringify(
           {
             companyName:    cliente.companyName,
-            cpf:            cliente.cnpj,
+            cpnj:           cliente.cnpj,
             phones:         cliente.phones,
             postalCode:     cliente.postalCode,
-            email:          cliente.email
+            email:          cliente.email,
+            stage:          cliente.stage
           }),
         headers: {
           'content-type':  'application/json'
         }
       })
       if (!response.ok) {
-        let error = 'unable to edit cliente'
+        let error = 'unable to create pessoa juridica'
         throw error
       }
       return onPessoaJuridicaCreated(await response.json(), history, dispatch)
     } catch (error) {
-      console.log('unable to edit cliente: %s', error)
-      return dispatch({ type: ERROR_EDITING_PESSOA_JURIDICA, message: 'unable to create cliente', receivedAt: Date.now() })
+      console.log('unable to create pessoa juridica: %s', error)
+      return dispatch({ type: ERROR_CREATING_PESSOA_JURIDICA, message: 'unable to create cliente', receivedAt: Date.now() })
     }
   }
 }
 
 
 export function createPessoaFisica(cliente, history) {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     try {
       dispatch(creatingPessoaFisica())
       let url = '/api/clientes/pessoafisica'
-      let response = fetch(url, {
+      let response = await fetch(url, {
         method:  'POST',
         body:  JSON.stringify(
           {
@@ -353,42 +395,46 @@ export function createPessoaFisica(cliente, history) {
             cpf:        cliente.cpf,
             phones:     cliente.phones,
             postalCode: cliente.postalCode,
-            email:      cliente.email
+            email:      cliente.email,
+            stage:      cliente.stage
           }),
         headers: {
           'content-type':  'application/json'
         }
       })
       if (!response.ok) {
-        let error = 'unable to edit cliente'
+        let error = 'unable to create pessoa fisica'
         throw error
       }
       return onPessoaFisicaCreated(await response.json(), history, dispatch)
     } catch (error) {
-      console.log('unable to edit cliente: %s', error)
-      return dispatch({ type: ERROR_EDITING_PESSOA_FISICA, message: 'unable to create cliente', receivedAt: Date.now() })
+      console.log('unable to create pessoa fisica: %s', error)
+      return dispatch({ type: ERROR_CREATING_PESSOA_FISICA, message: 'unable to create cliente', receivedAt: Date.now() })
     }
   }
 }
 
 
 export function editPessoaJuridica(cliente, history) {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     try {
       dispatch(editingPessoaJuridica())
-      let url = '/api/clientes/pessoajuridica'
-      let response = fetch(url, {
+      let url = '/api/clientes/pessoajuridica/'
+      let response = await fetch(url + cliente.id, {
         method:  'PUT',
         body:  JSON.stringify(
           {
+            id:           cliente.id,
             companyName:  cliente.companyName,
             cnpj:         cliente.cnpj,
             phones:       cliente.phones,
             postalCode:   cliente.postalCode,
-            email:        cliente.email
+            email:        cliente.email,
+            stage:        cliente.stage
           }),
         headers: {
-          'content-type':  'application/json'
+          'content-type':  'application/json',
+          'Accept':        'application/json'
         }
       })
       if (!response.ok) {
@@ -405,22 +451,25 @@ export function editPessoaJuridica(cliente, history) {
 
 
 export function editPessoaFisica(cliente, history) {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     try {
       dispatch(editingPessoaFisica())
-      let url = '/api/clientes/pessoafisica'
-      let response = fetch(url, {
+      let url = '/api/clientes/pessoafisica/'
+      let response = await fetch(url + cliente.id, {
         method:  'PUT',
         body:  JSON.stringify(
           {
+            id:         cliente.id,
             name:       cliente.name,
-            cpf:        cliente.cpfCnpj,
+            cpf:        cliente.cpf,
             phones:     cliente.phones,
             postalCode: cliente.postalCode,
-            email:      cliente.email
+            email:      cliente.email,
+            stage:      cliente.stage
           }),
         headers: {
-          'content-type':  'application/json'
+          'content-type':  'application/json',
+          'Accept':        'application/json'
         }
       })
       if (!response.ok) {

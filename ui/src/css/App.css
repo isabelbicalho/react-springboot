@@ -43,7 +43,23 @@
 .bootstrap-switch-primary {
   background-color: #4bb5ff;
 }
-.react-tagsinput-tag .info {
+.react-tagsinput {
+  display: inline-block;
+  padding: 4px 6px;
+  max-width: 100%;
+  line-height: 22px;
+  background-color: transparent;
+  border: 1px solid #E3E3E3;
+  border-radius: 30px; }
+
+.react-tagsinput--focused {
+  border: 1px solid #f96332;
+  box-shadow: none;
+  outline: 0 !important;
+  color: #2c2c2c;
+}
+
+.react-tagsinput-tag {
   cursor: pointer;
   margin: 5px 3px 5px 0;
   position: relative;
@@ -57,3 +73,23 @@
   line-height: 1.5em;
   padding-left: 0.8em; }
 
+.react-tagsinput-remove {
+  cursor: pointer;
+  font-weight: bold; }
+
+.react-tagsinput-tag a::before {
+  font-family: 'Nucleo Outline';
+  content: "\ea53";
+  padding: 0px 2px; }
+
+.react-tagsinput-tag a {
+  cursor: pointer;
+  position: absolute;
+  top: 3px;
+  right: 0px;
+  opacity: 0;
+  background-color: transparent; }
+
+.react-tagsinput-input {
+  background: transparent;
+  border: 0;

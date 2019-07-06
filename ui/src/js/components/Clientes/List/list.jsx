@@ -6,16 +6,13 @@ class ClientesList extends Component {
 
   constructor(props) {
     super(props);
-    debugger
-    this.props.onFetchPessoasFisicas();
-    this.props.onFetchPessoasJuridicas();
-    // this.state = {clientes: props.clientes};
+    this.props.onFetchAll();
   }
 
   render() {
-    // const { clientes } = this.state;
+    const { pessoasFisicas, pessoasJuridicas } = this.props;
 
-    const clienteList1 = this.props.pessoasFisicas.map(cliente => {
+    const clienteList1 = pessoasFisicas.map(cliente => {
       return <tr key={cliente.id}>
         <td style={{whiteSpace: 'nowrap'}}>{cliente.name}</td>
         <td>{cliente.cpf}</td>
@@ -23,14 +20,14 @@ class ClientesList extends Component {
         <td>{cliente.phones}</td>
         <td>
           <ButtonGroup>
-            <Button size="sm" color="primary" tag={Link} to={"/clientes/pessoafisica/" + cliente.id}>Edit</Button>
-            <Button size="sm" color="danger" onClick={() => this.onDeletePessoaFisica(cliente.id)}>Delete</Button>
+            <Button size="sm" color="primary" tag={Link} to={"/clientes/pessoafisica/edit/" + cliente.id}>Edit</Button>
+            <Button size="sm" color="danger" onClick={() => this.props.onDeletePessoaFisica(cliente.id)}>Delete</Button>
           </ButtonGroup>
         </td>
       </tr>
     });
 
-    const clienteList2 = this.props.pessoasJuridicas.map(cliente => {
+    const clienteList2 = pessoasJuridicas.map(cliente => {
       return <tr key={cliente.id}>
         <td style={{whiteSpace: 'nowrap'}}>{cliente.companyName}</td>
         <td>{cliente.cnpj}</td>
@@ -38,8 +35,8 @@ class ClientesList extends Component {
         <td>{cliente.phones}</td>
         <td>
           <ButtonGroup>
-            <Button size="sm" color="primary" tag={Link} to={"/clientes/pessoajuridica/" + cliente.id}>Edit</Button>
-            <Button size="sm" color="danger" onClick={() => this.onDeletePessoaJuridica(cliente.id)}>Delete</Button>
+            <Button size="sm" color="primary" tag={Link} to={"/clientes/pessoajuridica/edit/" + cliente.id}>Edit</Button>
+            <Button size="sm" color="danger" onClick={() => this.props.onDeletePessoaJuridica(cliente.id)}>Delete</Button>
           </ButtonGroup>
         </td>
       </tr>

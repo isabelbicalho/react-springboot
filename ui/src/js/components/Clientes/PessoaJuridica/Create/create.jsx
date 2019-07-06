@@ -10,10 +10,10 @@ class CreateCliente extends Component {
     super(props)
     this.state = {
       item: {
-        name: '',
-        cpfCnpj: '',
+        companyName: '',
+        cnpj: '',
         email: '',
-        telefones: [],
+        phones: [],
         stage: '',
         postalCode: '',
       }
@@ -46,14 +46,14 @@ class CreateCliente extends Component {
         {title}
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <Label for="name">Nome da empresa</Label>
-            <Input type="text" name="name" id="name" value={item.name || ''}
-                   onChange={this.handleChange} autoComplete="name"/>
+            <Label for="companyName">Nome da empresa</Label>
+            <Input type="text" name="companyName" id="companyName" value={item.companyName || ''}
+                   onChange={this.handleChange} autoComplete="companyName"/>
           </FormGroup>
           <FormGroup>
-            <Label for="cpfCnpj">CNPJ</Label>
-            <Input type="text" name="cpfCnpj" id="cpfCnpj" value={item.cpfCnpj || ''}
-                   onChange={this.handleChange} autoComplete="cpfCnpj"/>
+            <Label for="cnpj">CNPJ</Label>
+            <Input type="text" name="cnpj" id="cnpj" value={item.cnpj || ''}
+                   onChange={this.handleChange} autoComplete="cnpj"/>
           </FormGroup>
           <FormGroup>
             <Label for="email">Email</Label>
@@ -73,18 +73,18 @@ class CreateCliente extends Component {
                 name="stage"
                 className="primary"
                 placeholder="Stage"
-                value={item.stage}
+                value={{value: item.stage, label: item.stage}}
                 options={[{value: 'active', label: 'active'}, {value: 'inactive', label: 'inactive'}]}
-                onChange={(value) => this.setState({ item: {...item, stage: value}})}
+                onChange={(value) => this.setState({ item: {...item, stage: value.value}})}
               />
             </FormGroup>
             <FormGroup className="col-md-3 mb-3">
               <Label for="country">Telefones</Label>
               <TagsInput
-                id="telefones"
-                name="telefones"
-                value={item.telefones}
-                onChange={(value) => this.setState({ item: {...item, telefones: value }})}
+                id="phones"
+                name="phones"
+                value={item.phones}
+                onChange={(value) => this.setState({ item: {...item, phones: value }})}
                 tagProps={{className: 'react-tagsinput-tag info' }}
               />
             </FormGroup>

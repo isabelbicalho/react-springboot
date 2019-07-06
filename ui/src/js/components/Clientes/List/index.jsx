@@ -7,10 +7,10 @@ import {
   fetchPessoasJuridicas,
   deletePessoaFisica,
   deletePessoaJuridica,
+  fetchAllClients,
 } from 'js/actions/Clientes'
 
 const mapStateToProps = (state) => {
-  debugger
   return {
     pessoasFisicas:   state.clientes.pessoasFisicas,
     pessoasJuridicas: state.clientes.pessoasJuridicas,
@@ -22,6 +22,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onFetchAll: () => {
+      dispatch(fetchAllClients())
+    },
     onEditPessoaFisica: (cliente, history) => { 
       dispatch(editPessoaFisica(cliente, history))
     },

@@ -11,9 +11,9 @@ class CreateCliente extends Component {
     this.state = {
       item: {
         name: '',
-        cpfCnpj: '',
+        cpf: '',
         email: '',
-        telefones: [],
+        phones: [],
         stage: '',
         postalCode: '',
       }
@@ -51,9 +51,9 @@ class CreateCliente extends Component {
                    onChange={this.handleChange} autoComplete="name"/>
           </FormGroup>
           <FormGroup>
-            <Label for="cpfCnpj">'CPF'</Label>
-            <Input type="text" name="cpfCnpj" id="cpfCnpj" value={item.cpfCnpj || ''}
-                   onChange={this.handleChange} autoComplete="cpfCnpj"/>
+            <Label for="cpf">CPF</Label>
+            <Input type="text" name="cpf" id="cpf" value={item.cpf || ''}
+                   onChange={this.handleChange} autoComplete="cpf"/>
           </FormGroup>
           <FormGroup>
             <Label for="email">Email</Label>
@@ -73,18 +73,18 @@ class CreateCliente extends Component {
                 name="stage"
                 className="primary"
                 placeholder="Stage"
-                value={item.stage}
+                value={{value: item.stage, label: item.stage}}
                 options={[{value: 'active', label: 'active'}, {value: 'inactive', label: 'inactive'}]}
-                onChange={(value) => this.setState({ item: {...item, stage: value}})}
+                onChange={(value) => this.setState({ item: {...item, stage: value.value}})}
               />
             </FormGroup>
             <FormGroup className="col-md-3 mb-3">
               <Label for="country">Telefones</Label>
               <TagsInput
-                id="telefones"
-                name="telefones"
-                value={item.telefones}
-                onChange={(value) => this.setState({ item: {...item, telefones: value }})}
+                id="phones"
+                name="phones"
+                value={item.phones}
+                onChange={(value) => this.setState({ item: {...item, phones: value }})}
                 tagProps={{className: 'react-tagsinput-tag info' }}
               />
             </FormGroup>

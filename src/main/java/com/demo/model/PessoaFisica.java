@@ -11,8 +11,6 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Data
-//@allargsconstructor
-//@requiredargsconstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "pessoa_fisica")
