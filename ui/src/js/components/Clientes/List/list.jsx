@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { formatToCNPJ, formatToCPF } from 'brazilian-values';
 
 class ClientesList extends Component {
 
@@ -15,7 +16,7 @@ class ClientesList extends Component {
     const clienteList1 = pessoasFisicas.map(cliente => {
       return <tr key={cliente.id}>
         <td style={{whiteSpace: 'nowrap'}}>{cliente.name}</td>
-        <td>{cliente.cpf}</td>
+        <td>{formatToCPF(''+cliente.cpf)}</td>
         <td>Pessoa Física</td>
         <td>{cliente.phones}</td>
         <td>
@@ -30,7 +31,7 @@ class ClientesList extends Component {
     const clienteList2 = pessoasJuridicas.map(cliente => {
       return <tr key={cliente.id}>
         <td style={{whiteSpace: 'nowrap'}}>{cliente.companyName}</td>
-        <td>{cliente.cnpj}</td>
+        <td>{formatToCNPJ(''+cliente.cnpj)}</td>
         <td>Pessoa Jurídica</td>
         <td>{cliente.phones}</td>
         <td>

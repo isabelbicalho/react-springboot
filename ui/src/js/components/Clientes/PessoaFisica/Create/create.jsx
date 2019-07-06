@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { Row, Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 import Select from 'react-select';
 import TagsInput from 'react-tagsinput';
+import { isCPF } from 'brazilian-values';
 
 class CreateCliente extends Component {
 
@@ -33,8 +34,35 @@ class CreateCliente extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const {item} = this.state;
-    this.props.onCreate(item, this.props.history)
+    if (this.validateRequired()) {
+      const {item} = this.state;
+      this.props.onCreate(item, this.props.history)
+    }
+  }
+
+  validateRequired() {
+    let isValid = true;
+    if (!this.state.item.name){
+      isValid = false;
+    }
+    if (!this.state.item.cpf || !isCPF(''+this.state.item.cpf)) {
+      isValid = false;
+    }
+    if (!this.state.stage) {
+    }
+    if (!this.state.item.phones) {
+      isValid = false;
+    }
+    return isValid;
+  }
+
+  errorValidating(field){
+    this.setState({ [field]: true });
+    this.setState({ validationError: true });
+  }
+
+  getFieldClass(field) {
+    return this.state[field] ? 'input-group-focus' : '';
   }
 
   render() {
@@ -46,32 +74,31 @@ class CreateCliente extends Component {
         {title}
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <Label for="name">Nome</Label>
+            <Label for="name">Nome *</Label>
             <Input type="text" name="name" id="name" value={item.name || ''}
-                   onChange={this.handleChange} autoComplete="name"/>
+                   onChange={this.handleChange} autoComplete="name" className={this.getFieldClass('nameFocus')}/>
           </FormGroup>
           <FormGroup>
-            <Label for="cpf">CPF</Label>
-            <Input type="text" name="cpf" id="cpf" value={item.cpf || ''}
-                   onChange={this.handleChange} autoComplete="cpf"/>
+            <Label for="cpf">CPF *</Label>
+            <Input type="number" name="cpf" id="cpf" value={item.cpf || ''}
+                   onChange={this.handleChange} autoComplete="cpf"  className={this.getFieldClass('cpfFocus')}/>
           </FormGroup>
           <FormGroup>
-            <Label for="email">Email</Label>
-            <Input type="text" name="email" id="email" value={item.email || ''}
-                   onChange={this.handleChange} autoComplete="email"/>
+            <Label for="email">Email *</Label>
+            <Input type="email" name="email" id="email" value={item.email || ''}
+                   onChange={this.handleChange} autoComplete="email"  className={this.getFieldClass('emailFocus')}/>
           </FormGroup>
           <div className="row">
               <FormGroup className="col-md-4 mb-3">
               <Label for="postalCode">PostalCode</Label>
-              <Input type="text" name="postalCode" id="postalCode" value={item.postalCode || ''}
+              <Input type="number" name="postalCode" id="postalCode" value={item.postalCode || ''}
                      onChange={this.handleChange} autoComplete="postalCode"/>
             </FormGroup>
             <FormGroup className="col-md-5 mb-3">
-              <Label for="country">Stage</Label>
+              <Label for="country">Stage *</Label>
               <Select
                 id="stage"
                 name="stage"
-                className="primary"
                 placeholder="Stage"
                 value={{value: item.stage, label: item.stage}}
                 options={[{value: 'active', label: 'active'}, {value: 'inactive', label: 'inactive'}]}
@@ -79,7 +106,7 @@ class CreateCliente extends Component {
               />
             </FormGroup>
             <FormGroup className="col-md-3 mb-3">
-              <Label for="country">Telefones</Label>
+              <Label for="country">Telefones *</Label>
               <TagsInput
                 id="phones"
                 name="phones"

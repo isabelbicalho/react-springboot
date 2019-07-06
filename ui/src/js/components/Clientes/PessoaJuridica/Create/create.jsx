@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { Row, Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 import Select from 'react-select';
 import TagsInput from 'react-tagsinput';
+import { isCNPJ } from 'brazilian-values';
 
 class CreateCliente extends Component {
 
@@ -33,8 +34,26 @@ class CreateCliente extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const {item} = this.state;
-    this.props.onCreate(item, this.props.history)
+    if (this.validateRequired()) {
+      const {item} = this.state;
+      this.props.onCreate(item, this.props.history)
+    }
+  }
+
+  validateRequired() {
+    let isValid = true;
+    if (!this.state.item.name){
+      isValid = false;
+    }
+    if (!this.state.item.cnpj || !isCNPJ(''+this.state.item.cnpj)) {
+      isValid = false;
+    }
+    if (!this.state.stage) {
+    }
+    if (!this.state.item.phones) {
+      isValid = false;
+    }
+    return isValid;
   }
 
   render() {
@@ -46,28 +65,28 @@ class CreateCliente extends Component {
         {title}
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <Label for="companyName">Nome da empresa</Label>
+            <Label for="companyName">Nome da empresa *</Label>
             <Input type="text" name="companyName" id="companyName" value={item.companyName || ''}
                    onChange={this.handleChange} autoComplete="companyName"/>
           </FormGroup>
           <FormGroup>
-            <Label for="cnpj">CNPJ</Label>
-            <Input type="text" name="cnpj" id="cnpj" value={item.cnpj || ''}
+            <Label for="cnpj">CNPJ *</Label>
+            <Input type="number" name="cnpj" id="cnpj" value={item.cnpj || ''}
                    onChange={this.handleChange} autoComplete="cnpj"/>
           </FormGroup>
           <FormGroup>
-            <Label for="email">Email</Label>
-            <Input type="text" name="email" id="email" value={item.email || ''}
+            <Label for="email">Email *</Label>
+            <Input type="email" name="email" id="email" value={item.email || ''}
                    onChange={this.handleChange} autoComplete="email"/>
           </FormGroup>
           <div className="row">
               <FormGroup className="col-md-4 mb-3">
               <Label for="postalCode">PostalCode</Label>
-              <Input type="text" name="postalCode" id="postalCode" value={item.postalCode || ''}
+              <Input type="number" name="postalCode" id="postalCode" value={item.postalCode || ''}
                      onChange={this.handleChange} autoComplete="postalCode"/>
             </FormGroup>
             <FormGroup className="col-md-5 mb-3">
-              <Label for="country">Stage</Label>
+              <Label for="country">Stage *</Label>
               <Select
                 id="stage"
                 name="stage"
@@ -79,7 +98,7 @@ class CreateCliente extends Component {
               />
             </FormGroup>
             <FormGroup className="col-md-3 mb-3">
-              <Label for="country">Telefones</Label>
+              <Label for="country">Telefones *</Label>
               <TagsInput
                 id="phones"
                 name="phones"

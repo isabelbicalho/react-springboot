@@ -93,3 +93,10 @@
 .react-tagsinput-input {
   background: transparent;
   border: 0;
+}
+.input-group-focus,
+.input-group-focus .input-group-append .input-group-text,
+.form-group .input-group-focus .input-field,
+.input-group-focus .input-field {
+  background-color: #FFFFFF;
+  border-color: #f96332; }
