@@ -4,6 +4,7 @@ import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 import Select from 'react-select';
 import TagsInput from 'react-tagsinput';
 import { isCNPJ } from 'brazilian-values';
+import NumberFormat from 'react-number-format';
 
 class ClienteEdit extends Component {
 
@@ -94,7 +95,7 @@ class ClienteEdit extends Component {
           <div className="row">
               <FormGroup className="col-md-4 mb-3">
               <Label for="postalCode">PostalCode</Label>
-              <Input type="number" name="postalCode" id="postalCode" value={item.postalCode || ''}
+              <NumberFormat className="form-control" format="##-###-###" name="postalCode" id="postalCode" value={item.postalCode || ''}
                      onChange={this.handleChange} autoComplete="postalCode"/>
             </FormGroup>
             <FormGroup className="col-md-5 mb-3">

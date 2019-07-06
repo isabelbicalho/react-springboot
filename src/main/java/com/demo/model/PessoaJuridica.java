@@ -22,7 +22,7 @@ public class PessoaJuridica {
     @NonNull
     private String      companyName;
     @NonNull
-    private Long        cnpj;
+    private String      cnpj;
     private String      postalCode;
     @NonNull
     private String      email;

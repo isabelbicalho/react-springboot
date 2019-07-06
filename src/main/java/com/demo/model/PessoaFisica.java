@@ -22,7 +22,7 @@ public class PessoaFisica {
     @NonNull
     private String      name;
     @NonNull
-    private Long        cpf;
+    private String      cpf;
     private String      postalCode;
     @NonNull
     private String      email;

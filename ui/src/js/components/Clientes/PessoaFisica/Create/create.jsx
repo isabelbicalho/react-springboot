@@ -4,6 +4,7 @@ import { Row, Button, Container, Form, FormGroup, Input, Label } from 'reactstra
 import Select from 'react-select';
 import TagsInput from 'react-tagsinput';
 import { isCPF } from 'brazilian-values';
+import NumberFormat from 'react-number-format';
 
 class CreateCliente extends Component {
 
@@ -41,6 +42,7 @@ class CreateCliente extends Component {
   }
 
   validateRequired() {
+    debugger
     let isValid = true;
     if (!this.state.item.name){
       isValid = false;
@@ -49,6 +51,7 @@ class CreateCliente extends Component {
       isValid = false;
     }
     if (!this.state.stage) {
+      isValid = false;
     }
     if (!this.state.item.phones) {
       isValid = false;
@@ -80,7 +83,7 @@ class CreateCliente extends Component {
           </FormGroup>
           <FormGroup>
             <Label for="cpf">CPF *</Label>
-            <Input type="number" name="cpf" id="cpf" value={item.cpf || ''}
+            <Input type="number" className="form-control" format="###.###.###-##" name="cpf" id="cpf" value={item.cpf || ''}
                    onChange={this.handleChange} autoComplete="cpf"  className={this.getFieldClass('cpfFocus')}/>
           </FormGroup>
           <FormGroup>
@@ -91,7 +94,7 @@ class CreateCliente extends Component {
           <div className="row">
               <FormGroup className="col-md-4 mb-3">
               <Label for="postalCode">PostalCode</Label>
-              <Input type="number" name="postalCode" id="postalCode" value={item.postalCode || ''}
+              <NumberFormat className="form-control" format="##-###-###" name="postalCode" id="postalCode" value={item.postalCode || ''}
                      onChange={this.handleChange} autoComplete="postalCode"/>
             </FormGroup>
             <FormGroup className="col-md-5 mb-3">
@@ -112,7 +115,7 @@ class CreateCliente extends Component {
                 name="phones"
                 value={item.phones}
                 onChange={(value) => this.setState({ item: {...item, phones: value }})}
-                tagProps={{className: 'react-tagsinput-tag info' }}
+                tagProps={{className: 'form-control react-tagsinput-tag info' }}
               />
             </FormGroup>
           </div>
