@@ -9,7 +9,7 @@ Os métodos REST encontram-se dentro da pasta 'web'.
 O frontend foi feito com react/redux, e encontra-se dentor da pasta ui/src.
 As rotas são mapeadas dentro da pasta js/routes.
 Os componentes para criação, edição e tabela estão na pasta js/components.
-Exite um layout com o cabeçalho dentro da pasta js/layouts.
+Existe um layout com o cabeçalho dentro da pasta js/layouts.
 O estado da aplicação é todo mapeado pelo reducer em js/reducers.
 As ações de fetch para o backend encontram-se em js/actions.
 
